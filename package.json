@@ -1,0 +1,27 @@
+{
+  "name": "nyahari",
+  "version": "1.0.0",
+  "description": "Nyahari Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "Awesome"
+  ],
+  "author": "Gaurav Burande",
+  "license": "ISC",
+  "dependencies": {
+    "authy": "^1.4.0",
+    "bcrypt": "^5.0.1",
+    "config": "^3.3.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.13",
+    "nodemon": "^2.0.15",
+    "request": "^2.88.2",
+    "twilio": "^3.71.2"
+  }
+}

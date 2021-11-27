@@ -1,0 +1,7 @@
+{
+    "mongoURI":"mongodb+srv://admin:gaurav2184@cluster0.9mvsd.mongodb.net/Nyahari?retryWrites=true&w=majority",
+    "jwtSecret":"mysecretjwttoken",
+    "serviceID":"MG362140b924bc4b29241bad7153ca08e0",
+    "accountSID":"AC869b65d25d2bca524060ba2948774e69",
+    "authToken":"5b892d6bbaf8fdb3c49a74d46f130f82"
+}
