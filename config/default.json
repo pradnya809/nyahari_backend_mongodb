@@ -1,5 +1,5 @@
 {
-    "mongoURI":"MONGOURL",
+    "mongoURI":"mongodb+srv://nyahari:nyahari@123@cluster0.exnb0.mongodb.net/Nyahari?retryWrites=true&w=majority",
     "jwtSecret":"mysecretjwttoken"
     
 }

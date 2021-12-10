@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const PORT = process.env.PORT || 5000;
 
 const config = require("config");
+const mongoose = require("mongoose");
 
 const serviceID = "MGa5d7cee7aad5961ed11ca29b500e514b";
 const accountSID = "AC869b65d25d2bca524060ba2948774e69";
@@ -13,7 +14,13 @@ const client = require("twilio")(accountSID, authToken);
 const app = express();
 var authy = require("authy")("APIKEY");
 app.use(cors());
-connectDB();
+mongoose.connect(
+  "mongodb+srv://admin:gaurav54321@cluster0.9mvsd.mongodb.net/Nyahari?retryWrites=true&w=majority",
+  () => {
+    console.log("Connected Successfully");
+  }
+);
+// connectDB();
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -133,6 +140,7 @@ function sendTextMessage() {
 
 app.use("/api/register", require("./api/register"));
 app.use("/api/login", require("./api/login"));
+app.use("/api/profile", require("./api/profile"));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
