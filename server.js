@@ -141,6 +141,7 @@ function sendTextMessage() {
 app.use("/api/register", require("./api/register"));
 app.use("/api/login", require("./api/login"));
 app.use("/api/profile", require("./api/profile"));
+app.use("/api/menu", require("./api/menu"));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
