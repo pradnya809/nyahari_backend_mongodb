@@ -143,6 +143,8 @@ app.use("/api/login", require("./api/login"));
 app.use("/api/profile", require("./api/profile"));
 app.use("/api/menu", require("./api/menu"));
 
+app.use("/api/feedback", require("./api/feedback"));
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
