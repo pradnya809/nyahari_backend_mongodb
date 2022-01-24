@@ -21,6 +21,15 @@ const ProfileSchema = new mongoose.Schema({
   Notifications: {
     type: Array,
   },
+  // startingDate: {
+  //   type: Date,
+  // },
+  // endingDate: {
+  //   type: Date,
+  // },
+  schedule: {
+    type: Object,
+  },
   date: {
     type: Date,
     default: Date.now,
