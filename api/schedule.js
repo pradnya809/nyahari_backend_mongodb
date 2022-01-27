@@ -5,6 +5,9 @@ const Schedule = require("../models/Schedule");
 const Menu = require("../models/Menu");
 const ScheduleMenu = require("../models/ScheduleMenu");
 const { check, validationResult } = require("express-validator");
+const ScheduleItem = require("../models/ScheduleItem");
+
+// To Create New Schedule
 
 router.post(
   "/",
@@ -24,7 +27,7 @@ router.post(
     } else {
       try {
         const mine = await Schedule.findOne({ user: req.user.id });
-        // console.log(mine);
+        console.log(mine);
         // res.json(mine);
 
         if (mine) {
@@ -73,7 +76,7 @@ router.post("/addmenu", auth, async (req, res) => {
     items = new ScheduleMenu(scheduleitems);
     await items.save();
 
-    res.json("Created Successfully");
+    res.json("Created Successfullyfff");
   }
 });
 
@@ -81,7 +84,7 @@ router.post(
   "/scheduleitem/additems",
   [
     check("Date", "Must Include Date").not().isEmpty(),
-    check("menuId", "Must Include menuId").not().isEmpty(),
+    check("ItemId", "Must Include ItemId").not().isEmpty(),
   ],
   auth,
   async (req, res) => {
@@ -89,19 +92,136 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     } else {
-      const { Date, menuId } = req.body;
-      const schedule = await ScheduleMenu.findOneAndUpdate(
+      const { Date, menuId, ItemId, ItemName, Quantity } = req.body;
+
+      const schedule = await ScheduleMenu.findOne({
+        $and: [{ user: req.user.id }, { Date: `${Date}` }],
+      });
+
+      // console.log(schedule);
+      // res.json(schedule);
+
+      const scheduleitem = new ScheduleItem({
+        ItemId: ItemId,
+        ItemName: ItemName,
+        Quantity: Quantity,
+      });
+
+      // const findinarray = await ScheduleMenu.findOne(
+      //   { ScheduleItems: { $elemMatch: { ItemId: ItemId } } }
+      //   // { $set: { Quantity: "5" } }
+      // );
+
+      // console.log(findinarray);
+
+      // if (findinarray) {
+      // const findinarray = await ScheduleMenu.findOneAndUpdate(
+      //   // {
+      //   //   ScheduleItems: { $elemMatch: { ItemId: ItemId } },
+      //   // }
+      //   // {
+      //   //   ScheduleItems: { $inc: { Quantity: "3" } },
+      //   // }
+      //   //   { $set:
+      //   //     {
+      //   //       "tags.1": "rain gear",
+      //   //       "ratings.0.rating": 2
+      //   //     }
+      //   //  }
+
+      //   // {
+      //   //   $set: {
+      //   //     "ScheduleItems.0.Quantity": 2,
+      //   //   },
+      //   // }
+      // );
+
+      // const findinarray1 = await ScheduleMenu.updateOne(
+      //   {
+      //     Date: Date,
+      //     // ItemId: "12345687891",
+      //     user: req.user.id,
+      //     "ScheduleItems.ItemId": ItemId,
+      //   },
+      //   { $set: { "ScheduleItems.$.Quantity": Quantity } }
+      //   // false,
+      //   // true
+      // );
+      // console.log(findinarray1);
+
+      // // console.log(findinarray);
+      // res.json(findinarray1);
+      // } else {
+      console.log("Not Working");
+
+      const savedItem = await scheduleitem.save();
+
+      const schedule1 = await ScheduleMenu.findOneAndUpdate(
         {
           $and: [{ user: req.user.id }, { Date: `${Date}` }],
         },
         {
-          $addToSet: {
-            ScheduleItems: [menuId],
+          $push: {
+            ScheduleItems: [savedItem],
           },
         }
       );
 
-      res.json(schedule);
+      res.json(schedule1);
+      console.log(schedule1);
+      // }
+
+      // if (schedule != null) {
+      //   const scheduleitem = new ScheduleItem({
+      //     ItemId: ItemId,
+      //     ItemName: ItemName,
+      //     Quantity: Quantity,
+      //   });
+
+      //   savedItem = await scheduleitem.save();
+
+      //   const schedule = await ScheduleMenu.findOneAndUpdate(
+      //     {
+      //       $and: [{ user: req.user.id }, { Date: `${Date}` }],
+      //     },
+      //     {
+      //       $addToSet: {
+      //         ScheduleItems: [savedItem],
+      //       },
+      //     }
+      //   );
+
+      //   // res.json(schedule);
+      // } else {
+      //   // scheduleitems = { Date };
+      //   // scheduleitems.user = req.user.id;
+
+      //   // items = new ScheduleMenu(scheduleitems);
+      //   // await items.save();
+
+      //   const scheduleitem = new ScheduleItem({
+      //     ItemId: ItemId,
+      //     ItemName: ItemName,
+      //     Quantity: Quantity,
+      //   });
+
+      //   savedItem = await scheduleitem.save();
+
+      //   const schedule = await ScheduleMenu.findOneAndUpdate(
+      //     {
+      //       $and: [{ user: req.user.id }, { Date: `${Date}` }],
+      //     },
+      //     {
+      //       $addToSet: {
+      //         ScheduleItems: [savedItem],
+      //       },
+      //     }
+      //   );
+
+      //   // res.json(schedule);
+
+      //   // res.json("Created Successfully");
+      // }
     }
   }
 );
@@ -109,7 +229,7 @@ router.post(
 router.get("/testitem/testarray", auth, async (req, res) => {
   const { Date } = req.body;
 
-  const schedule = await Schedule.find(
+  const schedule = await ScheduleItem.find(
     {
       user: req.user.id,
     }

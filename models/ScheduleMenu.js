@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ScheduleItemsSchema = new mongoose.Schema({
+const ScheduleMenuSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
@@ -18,7 +18,8 @@ const ScheduleItemsSchema = new mongoose.Schema({
   },
 });
 
-module.exports = ScheduleItems = mongoose.model(
-  "scheduleitems",
-  ScheduleItemsSchema
+module.exports = ScheduleMenu = mongoose.model(
+  // "scheduleitems",
+  "schedulemenu",
+  ScheduleMenuSchema
 );
