@@ -6,6 +6,7 @@ const Menu = require("../models/Menu");
 const ScheduleMenu = require("../models/ScheduleMenu");
 const { check, validationResult } = require("express-validator");
 const ScheduleItem = require("../models/ScheduleItem");
+const Profile = require("../models/Profile");
 
 // To Create New Schedule
 
@@ -32,6 +33,7 @@ router.post(
 
         if (mine) {
           res.json("Schedule already Exist");
+          console.log("Schedule already Exist");
         } else {
           const { address, streetaddress, time, phone, startDate, endDate } =
             req.body;
@@ -50,6 +52,16 @@ router.post(
           await schedule.save();
 
           res.json("Schedule Saved");
+
+          const mineprofile = await Profile.findOneAndUpdate(
+            { user: req.user.id },
+            {
+              $set: {
+                isSchedule: true,
+              },
+            }
+          );
+          console.log(mineprofile);
         }
       } catch (err) {
         res.status(500).json(err);
@@ -59,7 +71,7 @@ router.post(
 );
 
 router.post("/addmenu", auth, async (req, res) => {
-  const { Date } = req.body;
+  const { Date, ItemId, ItemName } = req.body;
 
   const schedule = await ScheduleMenu.find({
     $and: [{ user: req.user.id }, { Date: `${Date}` }],
@@ -68,7 +80,32 @@ router.post("/addmenu", auth, async (req, res) => {
   // res.json(schedule);
 
   if (schedule.length >= 1) {
-    res.json("Already Present");
+    // res.json("Already Present");
+    const scheduleitem = new ScheduleItem({
+      // ItemId: ItemId,
+      // ItemName: ItemName,
+      // Quantity: Quantity,
+
+      ItemId: ItemId,
+      ItemName: ItemName,
+      Quantity: "1",
+    });
+
+    const savedItem = await scheduleitem.save();
+
+    const schedule1 = await ScheduleMenu.findOneAndUpdate(
+      {
+        $and: [{ user: req.user.id }, { Date: `${Date}` }],
+      },
+      {
+        $push: {
+          ScheduleItems: [savedItem],
+        },
+      }
+    );
+
+    res.json(schedule1);
+    console.log(schedule1);
   } else {
     scheduleitems = { Date };
     scheduleitems.user = req.user.id;
@@ -76,7 +113,33 @@ router.post("/addmenu", auth, async (req, res) => {
     items = new ScheduleMenu(scheduleitems);
     await items.save();
 
-    res.json("Created Successfullyfff");
+    // res.json("Created Successfullyfff");
+
+    const scheduleitem = new ScheduleItem({
+      // ItemId: ItemId,
+      // ItemName: ItemName,
+      // Quantity: Quantity,
+
+      ItemId: "123459453",
+      ItemName: "Pizza",
+      Quantity: "3",
+    });
+
+    const savedItem = await scheduleitem.save();
+
+    const schedule1 = await ScheduleMenu.findOneAndUpdate(
+      {
+        $and: [{ user: req.user.id }, { Date: `${Date}` }],
+      },
+      {
+        $push: {
+          ScheduleItems: [savedItem],
+        },
+      }
+    );
+
+    res.json(schedule1);
+    console.log(schedule1);
   }
 });
 
