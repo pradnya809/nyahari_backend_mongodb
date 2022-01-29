@@ -70,6 +70,12 @@ router.post(
   }
 );
 
+router.get("/myschedule", auth, async (req, res) => {
+  const mine = await Schedule.findOne({ user: req.user.id });
+  console.log(mine);
+  res.json(mine);
+});
+
 router.post("/addmenu", auth, async (req, res) => {
   const { Date, ItemId, ItemName } = req.body;
 
