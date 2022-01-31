@@ -73,7 +73,12 @@ router.post(
 router.get("/myschedule", auth, async (req, res) => {
   const mine = await Schedule.findOne({ user: req.user.id });
   console.log(mine);
-  res.json(mine);
+
+  if (mine != null) {
+    res.json(mine);
+  } else {
+    res.json("Your Schedule is not Existed");
+  }
 });
 
 router.post("/addmenu", auth, async (req, res) => {
@@ -295,19 +300,12 @@ router.post(
   }
 );
 
-router.get("/testitem/testarray", auth, async (req, res) => {
+router.get("/menu/datemenu", auth, async (req, res) => {
   const { Date } = req.body;
 
-  const schedule = await ScheduleItem.find(
-    {
-      user: req.user.id,
-    }
-    // { schedule: { $elemMatch: { Date: "12/01/2022" } } }
-  );
-
-  //   const schedule = await Schedule.find({
-  //     $and: [{ user: req.user.id }, { Date: `${Date}` }],
-  //   });
+  const schedule = await ScheduleMenu.find({
+    $and: [{ user: req.user.id }, { Date: `${Date}` }],
+  });
 
   res.json(schedule);
 });
