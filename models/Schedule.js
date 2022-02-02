@@ -34,12 +34,12 @@ const ScheduleSchema = new mongoose.Schema({
     required: true,
   },
   startDate: {
-    type: Date,
+    type: String,
     default: "",
     required: true,
   },
   endDate: {
-    type: Date,
+    type: String,
     default: "",
     required: true,
   },
