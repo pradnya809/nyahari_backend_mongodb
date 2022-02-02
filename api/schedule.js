@@ -300,7 +300,7 @@ router.post(
   }
 );
 
-router.get("/menu/datemenu", auth, async (req, res) => {
+router.put("/menu/datemenu", auth, async (req, res) => {
   const { Date } = req.body;
 
   const schedule = await ScheduleMenu.find({
