@@ -15,9 +15,9 @@ const ProfileSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
-  Orders: {
-    type: Array,
-  },
+  // Orders: {
+  //   type: Array,
+  // },
   Notifications: {
     type: Array,
   },

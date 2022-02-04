@@ -14,8 +14,8 @@ const ScheduleItemSchema = new mongoose.Schema({
     default: "",
   },
   Quantity: {
-    type: String,
-    default: "",
+    type: Number,
+    // default: "",
   },
   date: {
     type: Date,

@@ -82,7 +82,7 @@ router.get("/myschedule", auth, async (req, res) => {
 });
 
 router.post("/addmenu", auth, async (req, res) => {
-  const { Date, ItemId, ItemName } = req.body;
+  const { Date, ItemId, ItemName, Quantity } = req.body;
 
   const schedule = await ScheduleMenu.find({
     $and: [{ user: req.user.id }, { Date: `${Date}` }],
@@ -92,31 +92,59 @@ router.post("/addmenu", auth, async (req, res) => {
 
   if (schedule.length >= 1) {
     // res.json("Already Present");
-    const scheduleitem = new ScheduleItem({
-      // ItemId: ItemId,
-      // ItemName: ItemName,
-      // Quantity: Quantity,
 
-      ItemId: ItemId,
-      ItemName: ItemName,
-      Quantity: "1",
-    });
-
-    const savedItem = await scheduleitem.save();
-
-    const schedule1 = await ScheduleMenu.findOneAndUpdate(
+    const finditeminarray = await ScheduleMenu.find(
       {
-        $and: [{ user: req.user.id }, { Date: `${Date}` }],
-      },
-      {
-        $push: {
-          ScheduleItems: [savedItem],
-        },
+        Date: Date,
+        ItemId: "12345687891",
+        user: req.user.id,
+        "ScheduleItems.ItemId": ItemId,
       }
+      // { $inc: { "ScheduleItems.$.Quantity": 1 } }
+      // false,
+      // true
     );
 
-    res.json(schedule1);
-    console.log(schedule1);
+    // res.json(finditeminarray);
+
+    if (finditeminarray.length >= 1) {
+      const findinarray1 = await ScheduleMenu.updateOne(
+        {
+          Date: Date,
+          // ItemId: "12345687891",
+          user: req.user.id,
+          "ScheduleItems.ItemId": ItemId,
+        },
+        { $inc: { "ScheduleItems.$.Quantity": 1 } }
+        // false,
+        // true
+      );
+      console.log(findinarray1);
+      res.json(findinarray1);
+    } else {
+      // res.json("You have to create new item");
+      const scheduleitem = new ScheduleItem({
+        ItemId: ItemId,
+        ItemName: ItemName,
+        Quantity: 1,
+      });
+
+      const savedItem = await scheduleitem.save();
+
+      const schedule1 = await ScheduleMenu.findOneAndUpdate(
+        {
+          $and: [{ user: req.user.id }, { Date: `${Date}` }],
+        },
+        {
+          $push: {
+            ScheduleItems: [savedItem],
+          },
+        }
+      );
+
+      res.json(schedule1);
+      console.log(schedule1);
+    }
   } else {
     scheduleitems = { Date };
     scheduleitems.user = req.user.id;
@@ -127,13 +155,9 @@ router.post("/addmenu", auth, async (req, res) => {
     // res.json("Created Successfullyfff");
 
     const scheduleitem = new ScheduleItem({
-      // ItemId: ItemId,
-      // ItemName: ItemName,
-      // Quantity: Quantity,
-
-      ItemId: "123459453",
-      ItemName: "Pizza",
-      Quantity: "3",
+      ItemId: ItemId,
+      ItemName: ItemName,
+      Quantity: Quantity,
     });
 
     const savedItem = await scheduleitem.save();
@@ -300,13 +324,15 @@ router.post(
   }
 );
 
+//Response of user of particular Date
 router.put("/menu/datemenu", auth, async (req, res) => {
   const { Date } = req.body;
 
-  const schedule = await ScheduleMenu.find({
+  const schedule = await ScheduleMenu.findOne({
     $and: [{ user: req.user.id }, { Date: `${Date}` }],
   });
 
-  res.json(schedule);
+  res.send(schedule);
+  console.log(schedule);
 });
 module.exports = router;
