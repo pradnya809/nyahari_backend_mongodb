@@ -82,7 +82,7 @@ router.get("/myschedule", auth, async (req, res) => {
 });
 
 router.post("/addmenu", auth, async (req, res) => {
-  const { Date, ItemId, ItemName, Quantity } = req.body;
+  const { Date, ItemId, ItemName, Quantity, Toppings, TypeofDish } = req.body;
 
   const schedule = await ScheduleMenu.find({
     $and: [{ user: req.user.id }, { Date: `${Date}` }],
@@ -96,36 +96,77 @@ router.post("/addmenu", auth, async (req, res) => {
     const finditeminarray = await ScheduleMenu.find(
       {
         Date: Date,
-        ItemId: "12345687891",
+        ItemId: ItemId,
         user: req.user.id,
         "ScheduleItems.ItemId": ItemId,
+        // $and: [
+        //   { "ScheduleItems.Toppings": { $all: Toppings } },
+        //   { "ScheduleItems.TypeofDish": TypeofDish },
+        // ],
+        // "ScheduleItems.Toppings": { $all: Toppings },
+        // "ScheduleItems.Toppings": Toppings,
+        // "ScheduleItems.TypeofDish": TypeofDish,
+        // "ScheduleItems.Toppings": { $eq: Toppings },
+        // "ScheduleItems.TypeofDish": { $eq: TypeofDish },
+        // $and: [
+        //   {
+        //     "ScheduleItems.Toppings": { $eq: Toppings },
+        //     "ScheduleItems.TypeofDish": { $eq: TypeofDish },
+        //   },
+        // ],
+
+        ScheduleItems: {
+          $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
+        },
       }
       // { $inc: { "ScheduleItems.$.Quantity": 1 } }
       // false,
       // true
     );
 
-    // res.json(finditeminarray);
+    console.log("Found Found Found");
+
+    console.log(finditeminarray);
+    console.log("Found Found Found");
 
     if (finditeminarray.length >= 1) {
       const findinarray1 = await ScheduleMenu.updateOne(
         {
           Date: Date,
-          // ItemId: "12345687891",
+          // ItemId: ItemId,
           user: req.user.id,
           "ScheduleItems.ItemId": ItemId,
+          // $and: [
+          //   { "ScheduleItems.Toppings": { $all: Toppings } },
+          //   { "ScheduleItems.TypeofDish": TypeofDish },
+          // ],
+          // "ScheduleItems.Toppings": { $all: Toppings },
+          // "ScheduleItems.Toppings": Toppings,
+          // $and: [
+          //   {
+          //     "ScheduleItems.Toppings": { $eq: Toppings },
+          //     "ScheduleItems.TypeofDish": { $eq: TypeofDish },
+          //   },
+          // ],
+          ScheduleItems: {
+            $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
+          },
+
+          // "ScheduleItems.TypeofDish": TypeofDish,
         },
         { $inc: { "ScheduleItems.$.Quantity": 1 } }
-        // false,
-        // true
       );
+      // console.log("Found Found");
       console.log(findinarray1);
+      // console.log("Found Found");
       res.json(findinarray1);
     } else {
       // res.json("You have to create new item");
       const scheduleitem = new ScheduleItem({
         ItemId: ItemId,
         ItemName: ItemName,
+        Toppings: Toppings,
+        TypeofDish: TypeofDish,
         Quantity: 1,
       });
 
@@ -143,6 +184,7 @@ router.post("/addmenu", auth, async (req, res) => {
       );
 
       res.json(schedule1);
+
       console.log(schedule1);
     }
   } else {
@@ -157,6 +199,8 @@ router.post("/addmenu", auth, async (req, res) => {
     const scheduleitem = new ScheduleItem({
       ItemId: ItemId,
       ItemName: ItemName,
+      Toppings: Toppings,
+      TypeofDish: TypeofDish,
       Quantity: Quantity,
     });
 

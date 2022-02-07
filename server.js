@@ -15,7 +15,8 @@ const app = express();
 var authy = require("authy")("APIKEY");
 app.use(cors());
 mongoose.connect(
-  "mongodb+srv://gaurav:gaurav@nyaharidb.exnb0.mongodb.net/Nyahari?retryWrites=true&w=majority",
+  // "mongodb+srv://gaurav:gaurav@nyaharidb.exnb0.mongodb.net/Nyahari?retryWrites=true&w=majority",
+  "mongodb+srv://admin:gaurav54321@cluster0.9mvsd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   () => {
     console.log("Connected Successfully");
   }
