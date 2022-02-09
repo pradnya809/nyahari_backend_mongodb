@@ -20,11 +20,11 @@ const ScheduleItemSchema = new mongoose.Schema({
   Toppings: {
     type: String,
     // default: [],
-    default: "",
+    // default: "",
   },
   TypeofDish: {
     type: String,
-    default: "",
+    // default: "",
   },
 
   date: {

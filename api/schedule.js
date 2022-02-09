@@ -96,9 +96,29 @@ router.post("/addmenu", auth, async (req, res) => {
     const finditeminarray = await ScheduleMenu.find(
       {
         Date: Date,
-        ItemId: ItemId,
+        // ItemId: ItemId,
         user: req.user.id,
-        "ScheduleItems.ItemId": ItemId,
+        // "ScheduleItems.ItemId": ItemId,
+        // "ScheduleItems.Toppings": Toppings,
+        // "ScheduleItems.TypeofDish": TypeofDish,
+
+        ScheduleItems: {
+          $elemMatch: {
+            ItemId: ItemId,
+            Toppings: Toppings,
+            TypeofDish: TypeofDish,
+          },
+        },
+
+        // $and: [
+        //   { "ScheduleItems.ItemId": ItemId },
+        //   {
+        //     ScheduleItems: {
+        //       $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
+        //     },
+        //   },
+        // ],
+
         // $and: [
         //   { "ScheduleItems.Toppings": { $all: Toppings } },
         //   { "ScheduleItems.TypeofDish": TypeofDish },
@@ -114,10 +134,6 @@ router.post("/addmenu", auth, async (req, res) => {
         //     "ScheduleItems.TypeofDish": { $eq: TypeofDish },
         //   },
         // ],
-
-        ScheduleItems: {
-          $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
-        },
       }
       // { $inc: { "ScheduleItems.$.Quantity": 1 } }
       // false,
@@ -130,30 +146,50 @@ router.post("/addmenu", auth, async (req, res) => {
     console.log("Found Found Found");
 
     if (finditeminarray.length >= 1) {
-      const findinarray1 = await ScheduleMenu.updateOne(
+      const findinarray1 = await ScheduleMenu.findOneAndUpdate(
         {
           Date: Date,
           // ItemId: ItemId,
           user: req.user.id,
-          "ScheduleItems.ItemId": ItemId,
+          // "ScheduleItems.ItemId": ItemId,
+          // "ScheduleItems.Toppings": Toppings,
+          // "ScheduleItems.TypeofDish": TypeofDish,
+
+          ScheduleItems: {
+            $elemMatch: {
+              ItemId: ItemId,
+              Toppings: Toppings,
+              TypeofDish: TypeofDish,
+            },
+          },
+
+          // $and: [
+          //   { "ScheduleItems.ItemId": ItemId },
+          //   {
+          //     ScheduleItems: {
+          //       $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
+          //     },
+          //   },
+          // ],
           // $and: [
           //   { "ScheduleItems.Toppings": { $all: Toppings } },
           //   { "ScheduleItems.TypeofDish": TypeofDish },
           // ],
           // "ScheduleItems.Toppings": { $all: Toppings },
-          // "ScheduleItems.Toppings": Toppings,
+
           // $and: [
           //   {
           //     "ScheduleItems.Toppings": { $eq: Toppings },
           //     "ScheduleItems.TypeofDish": { $eq: TypeofDish },
           //   },
           // ],
-          ScheduleItems: {
-            $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
-          },
+          // ScheduleItems: {
+          //   $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
+          // },
 
           // "ScheduleItems.TypeofDish": TypeofDish,
         },
+
         { $inc: { "ScheduleItems.$.Quantity": 1 } }
       );
       // console.log("Found Found");
