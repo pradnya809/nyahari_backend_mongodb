@@ -91,54 +91,19 @@ router.post("/addmenu", auth, async (req, res) => {
   // res.json(schedule);
 
   if (schedule.length >= 1) {
-    // res.json("Already Present");
+    const finditeminarray = await ScheduleMenu.find({
+      Date: Date,
 
-    const finditeminarray = await ScheduleMenu.find(
-      {
-        Date: Date,
-        // ItemId: ItemId,
-        user: req.user.id,
-        // "ScheduleItems.ItemId": ItemId,
-        // "ScheduleItems.Toppings": Toppings,
-        // "ScheduleItems.TypeofDish": TypeofDish,
+      user: req.user.id,
 
-        ScheduleItems: {
-          $elemMatch: {
-            ItemId: ItemId,
-            Toppings: Toppings,
-            TypeofDish: TypeofDish,
-          },
+      ScheduleItems: {
+        $elemMatch: {
+          ItemId: ItemId,
+          Toppings: Toppings,
+          TypeofDish: TypeofDish,
         },
-
-        // $and: [
-        //   { "ScheduleItems.ItemId": ItemId },
-        //   {
-        //     ScheduleItems: {
-        //       $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
-        //     },
-        //   },
-        // ],
-
-        // $and: [
-        //   { "ScheduleItems.Toppings": { $all: Toppings } },
-        //   { "ScheduleItems.TypeofDish": TypeofDish },
-        // ],
-        // "ScheduleItems.Toppings": { $all: Toppings },
-        // "ScheduleItems.Toppings": Toppings,
-        // "ScheduleItems.TypeofDish": TypeofDish,
-        // "ScheduleItems.Toppings": { $eq: Toppings },
-        // "ScheduleItems.TypeofDish": { $eq: TypeofDish },
-        // $and: [
-        //   {
-        //     "ScheduleItems.Toppings": { $eq: Toppings },
-        //     "ScheduleItems.TypeofDish": { $eq: TypeofDish },
-        //   },
-        // ],
-      }
-      // { $inc: { "ScheduleItems.$.Quantity": 1 } }
-      // false,
-      // true
-    );
+      },
+    });
 
     console.log("Found Found Found");
 
