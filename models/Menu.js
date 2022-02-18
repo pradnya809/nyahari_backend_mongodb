@@ -22,6 +22,12 @@ const MenuSchema = new mongoose.Schema({
   Ratings: {
     type: Array,
   },
+  Toppings: {
+    type: String,
+  },
+  TypeofDish: {
+    type: String,
+  },
   quantity: {
     type: String,
   },
