@@ -1,0 +1,15 @@
+[
+    {
+        "name": "Upma",
+        "category": "Quick bites",
+        "Type":"Amazing Breakfast",
+        "cost": "40",
+        "description": "Delecious Poha",
+        "TypeofDish":["indori","marathi","dahi pohe"],
+        "Toppings":["cheese","dahi","sev"],
+        "deliveryTime":"45 min",
+        "Ratings":[],
+        "image":""
+       
+     }
+]

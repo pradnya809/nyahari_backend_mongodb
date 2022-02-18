@@ -43,9 +43,9 @@ const ScheduleSchema = new mongoose.Schema({
     default: "",
     required: true,
   },
-  Schedule: {
-    type: Array,
-  },
+  // Schedule: {
+  //   type: Array,
+  // },
   date: {
     type: Date,
     default: Date.now,

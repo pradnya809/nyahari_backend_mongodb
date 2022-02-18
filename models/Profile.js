@@ -15,15 +15,15 @@ const ProfileSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
-  Orders: {
-    type: Array,
-  },
+  // Orders: {
+  //   type: Array,
+  // },
   Notifications: {
     type: Array,
   },
   isSchedule: {
-    type: String,
-    default: "false",
+    type: Boolean,
+    default: false,
   },
   // startingDate: {
   //   type: Date,

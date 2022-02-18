@@ -14,9 +14,19 @@ const ScheduleItemSchema = new mongoose.Schema({
     default: "",
   },
   Quantity: {
-    type: String,
-    default: "",
+    type: Number,
+    default: 0,
   },
+  Toppings: {
+    type: String,
+    // default: [],
+    // default: "",
+  },
+  TypeofDish: {
+    type: String,
+    // default: "",
+  },
+
   date: {
     type: Date,
     default: Date.now,
