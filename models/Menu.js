@@ -23,7 +23,7 @@ const MenuSchema = new mongoose.Schema({
     type: Array,
   },
   Toppings: {
-    type: String,
+    type: Array,
   },
   TypeofDish: {
     type: String,

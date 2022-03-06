@@ -147,6 +147,7 @@ app.use("/api/feedback", require("./api/feedback"));
 app.use("/api/schedule", require("./api/schedule"));
 
 app.use("/api/web", require("./api/web"));
+app.use("/api/topping", require("./api/topping"));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
