@@ -1,10 +1,22 @@
 const mongoose = require("mongoose");
 
 const ToppingsSchema = new mongoose.Schema({
-  name: {
+  Toppingname: {
     type: String,
   },
   ExtraCharge: {
+    type: String,
+  },
+  category: {
+    type: String,
+  },
+  Type: {
+    type: String,
+  },
+  nameofdish: {
+    type: String,
+  },
+  ItemId: {
     type: String,
   },
   quantity: {
@@ -16,4 +28,4 @@ const ToppingsSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Topping = mongoose.model("toppings", ToppingsSchema);
+module.exports = Toppings = mongoose.model("toppings", ToppingsSchema);

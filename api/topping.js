@@ -32,4 +32,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.put("/gettopping", async (req, res) => {
+  const { ItemId } = req.body;
+  try {
+    const toppings = await Toppings.find({
+      ItemId: ItemId,
+    });
+    // console.log(toppings);
+
+    res.send(toppings);
+  } catch (err) {
+    res.status(500).json(err);
+    // console.log(err);
+  }
+});
+
 module.exports = router;
