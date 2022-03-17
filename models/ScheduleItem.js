@@ -26,6 +26,15 @@ const ScheduleItemSchema = new mongoose.Schema({
     type: String,
     // default: "",
   },
+  cost: {
+    type: Number,
+  },
+  ToppingCost: {
+    type: Number,
+  },
+  TotalCost: {
+    type: Number,
+  },
 
   date: {
     type: Date,

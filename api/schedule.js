@@ -82,7 +82,16 @@ router.get("/myschedule", auth, async (req, res) => {
 });
 
 router.post("/addmenu", auth, async (req, res) => {
-  const { Date, ItemId, ItemName, Quantity, Toppings, TypeofDish } = req.body;
+  const {
+    Date,
+    ItemId,
+    ItemName,
+    Quantity,
+    Toppings,
+    TypeofDish,
+    cost,
+    ToppingCost,
+  } = req.body;
 
   const schedule = await ScheduleMenu.find({
     $and: [{ user: req.user.id }, { Date: `${Date}` }],
@@ -163,12 +172,17 @@ router.post("/addmenu", auth, async (req, res) => {
       res.json(findinarray1);
     } else {
       // res.json("You have to create new item");
+      let TotalCost = cost + ToppingCost;
+
       const scheduleitem = new ScheduleItem({
         ItemId: ItemId,
         ItemName: ItemName,
         Toppings: Toppings,
         TypeofDish: TypeofDish,
         Quantity: 1,
+        cost: 50,
+        ToppingCost: 30,
+        TotalCost: TotalCost,
       });
 
       const savedItem = await scheduleitem.save();
@@ -196,6 +210,7 @@ router.post("/addmenu", auth, async (req, res) => {
     await items.save();
 
     // res.json("Created Successfullyfff");
+    let TotalCost = cost + ToppingCost;
 
     const scheduleitem = new ScheduleItem({
       ItemId: ItemId,
@@ -203,6 +218,9 @@ router.post("/addmenu", auth, async (req, res) => {
       Toppings: Toppings,
       TypeofDish: TypeofDish,
       Quantity: Quantity,
+      cost: cost,
+      ToppingCost: ToppingCost,
+      TotalCost: TotalCost,
     });
 
     const savedItem = await scheduleitem.save();

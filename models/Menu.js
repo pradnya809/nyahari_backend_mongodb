@@ -11,7 +11,8 @@ const MenuSchema = new mongoose.Schema({
     type: String,
   },
   cost: {
-    type: String,
+    // type: String,
+    type: Number,
   },
   description: {
     type: String,
@@ -26,6 +27,9 @@ const MenuSchema = new mongoose.Schema({
     type: Array,
   },
   TypeofDish: {
+    type: String,
+  },
+  Cost: {
     type: String,
   },
   quantity: {

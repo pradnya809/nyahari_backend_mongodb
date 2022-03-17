@@ -3,19 +3,21 @@ const mongoose = require("mongoose");
 const ToppingsSchema = new mongoose.Schema({
   Toppingname: {
     type: String,
+    required: true,
   },
-  ExtraCharge: {
-    type: String,
+  ToppingCost: {
+    type: Number,
+    required: true,
   },
   category: {
     type: String,
+    required: true,
   },
   Type: {
     type: String,
+    required: true,
   },
-  nameofdish: {
-    type: String,
-  },
+
   ItemId: {
     type: String,
   },

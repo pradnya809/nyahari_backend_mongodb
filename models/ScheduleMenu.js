@@ -12,6 +12,13 @@ const ScheduleMenuSchema = new mongoose.Schema({
   ScheduleItems: {
     type: Array,
   },
+  cost: {
+    type: Number,
+    // required: true,
+  },
+  ToppingCost: {
+    type: Number,
+  },
   date: {
     type: Date,
     default: Date.now,

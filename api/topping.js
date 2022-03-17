@@ -6,16 +6,18 @@ router.post("/", async (req, res) => {
   try {
     console.log("I am Topping");
 
-    const { name, ExtraCharge, quantity } = req.body;
+    const { Toppingname, ToppingCost, quantity, category, Type } = req.body;
     toppings = new Toppings({
-      name,
-      ExtraCharge,
+      Toppingname,
+      ToppingCost,
       quantity,
+      category,
+      Type,
     });
 
     await toppings.save();
 
-    res.json("Toopings");
+    res.json(toppings);
   } catch (err) {
     res.status(500).json(err);
   }
