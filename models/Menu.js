@@ -29,9 +29,9 @@ const MenuSchema = new mongoose.Schema({
   TypeofDish: {
     type: String,
   },
-  Cost: {
-    type: String,
-  },
+  // Cost: {
+  //   type: String,
+  // },
   quantity: {
     type: String,
   },
