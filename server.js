@@ -148,7 +148,7 @@ app.use("/api/schedule", require("./api/schedule"));
 
 app.use("/api/web", require("./api/web"));
 app.use("/api/topping", require("./api/topping"));
-
+app.use("/api/otp", require("./api/otp"));
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

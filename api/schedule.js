@@ -295,23 +295,34 @@ router.post("/removemenu", auth, async (req, res) => {
       });
 
       if (finditemQ.length >= 1) {
-        const findinarray1 = await ScheduleMenu.findOneAndDelete({
-          Date: Date,
-          // ItemId: ItemId,
-          user: req.user.id,
-          // "ScheduleItems.ItemId": ItemId,
-          // "ScheduleItems.Toppings": Toppings,
-          // "ScheduleItems.TypeofDish": TypeofDish,
+        const findinarray1 = await ScheduleMenu.findOneAndUpdate(
+          {
+            Date: Date,
+            // ItemId: ItemId,
+            user: req.user.id,
+            // "ScheduleItems.ItemId": ItemId,
+            // "ScheduleItems.Toppings": Toppings,
+            // "ScheduleItems.TypeofDish": TypeofDish,
 
-          ScheduleItems: {
-            $elemMatch: {
-              ItemId: ItemId,
-              Toppings: Toppings,
-              TypeofDish: TypeofDish,
-              Quantity: 1,
+            ScheduleItems: {
+              $elemMatch: {
+                ItemId: ItemId,
+                Toppings: Toppings,
+                TypeofDish: TypeofDish,
+                Quantity: 1,
+              },
             },
           },
-        });
+          {
+            $pull: {
+              ScheduleItems: {
+                ItemId: ItemId,
+                Toppings: Toppings,
+                TypeofDish: TypeofDish,
+              },
+            },
+          }
+        );
         res.json(findinarray1);
       } else {
         const findinarray1 = await ScheduleMenu.findOneAndUpdate(
