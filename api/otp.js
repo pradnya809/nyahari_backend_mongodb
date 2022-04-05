@@ -7,12 +7,12 @@ const Speakeasy = require("speakeasy");
 const uuid = require("uuid");
 
 router.post("/sendotp", (req, res) => {
-  const { sender, receiver } = req.body;
+  const { receiver } = req.body;
   let mailTransporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "",
-      pass: "",
+      user: "techxiosmedia@gmail.com",
+      pass: "techxios21847335",
     },
   });
 
@@ -35,9 +35,9 @@ router.post("/sendotp", (req, res) => {
   });
 
   let mailDetails = {
-    from: sender,
+    from: "techxiosmedia@gmail.com",
     to: receiver,
-    subject: "Nyahari Verification OTP",
+    subject: "Nyahari",
     text: "OTP for two factor Authentication",
     html:
       "<h3>OTP for account verification is </h3>" +
