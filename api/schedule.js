@@ -123,11 +123,7 @@ router.post("/addmenu", auth, async (req, res) => {
       const findinarray1 = await ScheduleMenu.findOneAndUpdate(
         {
           Date: Date,
-          // ItemId: ItemId,
           user: req.user.id,
-          // "ScheduleItems.ItemId": ItemId,
-          // "ScheduleItems.Toppings": Toppings,
-          // "ScheduleItems.TypeofDish": TypeofDish,
 
           ScheduleItems: {
             $elemMatch: {
@@ -136,32 +132,6 @@ router.post("/addmenu", auth, async (req, res) => {
               TypeofDish: TypeofDish,
             },
           },
-
-          // $and: [
-          //   { "ScheduleItems.ItemId": ItemId },
-          //   {
-          //     ScheduleItems: {
-          //       $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
-          //     },
-          //   },
-          // ],
-          // $and: [
-          //   { "ScheduleItems.Toppings": { $all: Toppings } },
-          //   { "ScheduleItems.TypeofDish": TypeofDish },
-          // ],
-          // "ScheduleItems.Toppings": { $all: Toppings },
-
-          // $and: [
-          //   {
-          //     "ScheduleItems.Toppings": { $eq: Toppings },
-          //     "ScheduleItems.TypeofDish": { $eq: TypeofDish },
-          //   },
-          // ],
-          // ScheduleItems: {
-          //   $elemMatch: { Toppings: Toppings, TypeofDish: TypeofDish },
-          // },
-
-          // "ScheduleItems.TypeofDish": TypeofDish,
         },
 
         { $inc: { "ScheduleItems.$.Quantity": 1 } }
@@ -241,242 +211,6 @@ router.post("/addmenu", auth, async (req, res) => {
   }
 });
 
-// router.post("/addmenu", auth, async (req, res) => {
-//   const {
-//     Date,
-//     ItemId,
-//     ItemName,
-//     Quantity,
-//     Toppings,
-//     TypeofDish,
-//     cost,
-//     ToppingCost,
-//   } = req.body;
-
-//   const schedule = await ScheduleMenu.find({
-//     $and: [{ user: req.user.id }, { Date: `${Date}` }],
-//   });
-//   console.log(schedule);
-//   // res.json(schedule);
-
-//   if (schedule.length >= 1) {
-//     const finditeminarray = await ScheduleMenu.find({
-//       Date: Date,
-
-//       user: req.user.id,
-
-//       ScheduleItems: {
-//         $elemMatch: {
-//           ItemId: ItemId,
-//           Toppings: Toppings,
-//           TypeofDish: TypeofDish,
-//         },
-//       },
-//     });
-
-//     console.log("Found Found Found");
-
-//     console.log(finditeminarray);
-//     console.log("Found Found Found");
-
-//     if (finditeminarray.length >= 1) {
-//       const findinarray1 = await ScheduleMenu.findOneAndUpdate(
-//         {
-//           Date: Date,
-//           // ItemId: ItemId,
-//           user: req.user.id,
-//           // "ScheduleItems.ItemId": ItemId,
-//           // "ScheduleItems.Toppings": Toppings,
-//           // "ScheduleItems.TypeofDish": TypeofDish,
-
-//           ScheduleItems: {
-//             $elemMatch: {
-//               ItemId: ItemId,
-//               Toppings: Toppings,
-//               TypeofDish: TypeofDish,
-//             },
-//           },
-//         },
-
-//         { $inc: { "ScheduleItems.$.Quantity": 1 } }
-//       );
-//       // console.log("Found Found");
-//       console.log(findinarray1);
-//       // console.log("Found Found");
-//       res.json(findinarray1);
-//     } else {
-//       // res.json("You have to create new item");
-//       let TotalCost = cost + ToppingCost;
-
-//       const scheduleitem = new ScheduleItem({
-//         ItemId: ItemId,
-//         ItemName: ItemName,
-//         Toppings: Toppings,
-//         TypeofDish: TypeofDish,
-//         Quantity: 1,
-//         cost: cost,
-//         ToppingCost: ToppingCost,
-//         TotalCost: TotalCost,
-//       });
-
-//       const savedItem = await scheduleitem.save();
-
-//       const schedule1 = await ScheduleMenu.findOneAndUpdate(
-//         {
-//           $and: [{ user: req.user.id }, { Date: `${Date}` }],
-//         },
-//         {
-//           $push: {
-//             ScheduleItems: [savedItem],
-//           },
-//         }
-//       );
-
-//       res.json(schedule1);
-
-//       console.log(schedule1);
-//     }
-//   } else {
-//     scheduleitems = { Date };
-//     scheduleitems.user = req.user.id;
-
-//     items = new ScheduleMenu(scheduleitems);
-//     await items.save();
-
-//     // res.json("Created Successfullyfff");
-//     let TotalCost = cost + ToppingCost;
-
-//     const scheduleitem = new ScheduleItem({
-//       ItemId: ItemId,
-//       ItemName: ItemName,
-//       Toppings: Toppings,
-//       TypeofDish: TypeofDish,
-//       Quantity: Quantity,
-//       cost: cost,
-//       ToppingCost: ToppingCost,
-//       TotalCost: TotalCost,
-//     });
-
-//     const savedItem = await scheduleitem.save();
-
-//     const schedule1 = await ScheduleMenu.findOneAndUpdate(
-//       {
-//         $and: [{ user: req.user.id }, { Date: `${Date}` }],
-//       },
-//       {
-//         $push: {
-//           ScheduleItems: [savedItem],
-//         },
-//       }
-//     );
-
-//     res.json(schedule1);
-//     console.log(schedule1);
-//   }
-// });
-
-router.post("/removemenu1", auth, async (req, res) => {
-  const {
-    Date,
-    ItemId,
-    ItemName,
-    Quantity,
-    Toppings,
-    TypeofDish,
-    cost,
-    ToppingCost,
-  } = req.body;
-
-  const schedule = await ScheduleMenu.find({
-    $and: [{ user: req.user.id }, { Date: `${Date}` }],
-  });
-  console.log(schedule);
-  // res.json(schedule);
-
-  if (schedule.length >= 1) {
-    const finditeminarray = await ScheduleMenu.find({
-      Date: Date,
-      user: req.user.id,
-
-      ScheduleItems: {
-        $elemMatch: {
-          ItemId: ItemId,
-          Toppings: Toppings,
-          TypeofDish: TypeofDish,
-        },
-      },
-    });
-
-    console.log("Found Found Found");
-
-    console.log(finditeminarray);
-    console.log("Found Found Found");
-
-    if (finditeminarray.length >= 1) {
-      const findinarray1 = await ScheduleMenu.findOne(
-        {
-          Date: Date,
-          user: req.user.id,
-
-          ScheduleItems: {
-            $elemMatch: {
-              ItemId: ItemId,
-              Toppings: Toppings,
-              TypeofDish: TypeofDish,
-            },
-          },
-        }
-
-        // { $inc: { "ScheduleItems.$.Quantity": 1 } }
-      );
-      // console.log("Found Found");
-      console.log(findinarray1);
-      // console.log("Found Found");
-      res.json(findinarray1.ScheduleItems);
-
-      if (findinarray1.ScheduleItems[0].Quantity <= 1) {
-        const findinarray1 = await ScheduleMenu.findOneAndRemove(
-          {
-            Date: Date,
-            user: req.user.id,
-
-            ScheduleItems: {
-              $elemMatch: {
-                ItemId: ItemId,
-                Toppings: Toppings,
-                TypeofDish: TypeofDish,
-              },
-            },
-          }
-
-          // { $inc: { "ScheduleItems.$.Quantity": 1 } }
-        );
-      } else {
-        const findinarray1 = await ScheduleMenu.findOneAndUpdate(
-          {
-            Date: Date,
-            user: req.user.id,
-
-            ScheduleItems: {
-              $elemMatch: {
-                ItemId: ItemId,
-                Toppings: Toppings,
-                TypeofDish: TypeofDish,
-              },
-            },
-          },
-
-          { $inc: { "ScheduleItems.$.Quantity": -1 } }
-        );
-      }
-    } else {
-      res.json("Worked");
-    }
-  } else {
-    res.json("Worked 123");
-  }
-});
-
 router.post("/removemenu", auth, async (req, res) => {
   const {
     Date,
@@ -536,10 +270,6 @@ router.post("/removemenu", auth, async (req, res) => {
             Date: Date,
             // ItemId: ItemId,
             user: req.user.id,
-            // "ScheduleItems.ItemId": ItemId,
-            // "ScheduleItems.Toppings": Toppings,
-            // "ScheduleItems.TypeofDish": TypeofDish,
-
             ScheduleItems: {
               $elemMatch: {
                 ItemId: ItemId,
@@ -564,11 +294,7 @@ router.post("/removemenu", auth, async (req, res) => {
         const findinarray1 = await ScheduleMenu.findOneAndUpdate(
           {
             Date: Date,
-            // ItemId: ItemId,
             user: req.user.id,
-            // "ScheduleItems.ItemId": ItemId,
-            // "ScheduleItems.Toppings": Toppings,
-            // "ScheduleItems.TypeofDish": TypeofDish,
 
             ScheduleItems: {
               $elemMatch: {
@@ -658,51 +384,6 @@ router.post(
         Quantity: Quantity,
       });
 
-      // const findinarray = await ScheduleMenu.findOne(
-      //   { ScheduleItems: { $elemMatch: { ItemId: ItemId } } }
-      //   // { $set: { Quantity: "5" } }
-      // );
-
-      // console.log(findinarray);
-
-      // if (findinarray) {
-      // const findinarray = await ScheduleMenu.findOneAndUpdate(
-      //   // {
-      //   //   ScheduleItems: { $elemMatch: { ItemId: ItemId } },
-      //   // }
-      //   // {
-      //   //   ScheduleItems: { $inc: { Quantity: "3" } },
-      //   // }
-      //   //   { $set:
-      //   //     {
-      //   //       "tags.1": "rain gear",
-      //   //       "ratings.0.rating": 2
-      //   //     }
-      //   //  }
-
-      //   // {
-      //   //   $set: {
-      //   //     "ScheduleItems.0.Quantity": 2,
-      //   //   },
-      //   // }
-      // );
-
-      // const findinarray1 = await ScheduleMenu.updateOne(
-      //   {
-      //     Date: Date,
-      //     // ItemId: "12345687891",
-      //     user: req.user.id,
-      //     "ScheduleItems.ItemId": ItemId,
-      //   },
-      //   { $set: { "ScheduleItems.$.Quantity": Quantity } }
-      //   // false,
-      //   // true
-      // );
-      // console.log(findinarray1);
-
-      // // console.log(findinarray);
-      // res.json(findinarray1);
-      // } else {
       console.log("Not Working");
 
       const savedItem = await scheduleitem.save();
@@ -720,59 +401,6 @@ router.post(
 
       res.json(schedule1);
       console.log(schedule1);
-      // }
-
-      // if (schedule != null) {
-      //   const scheduleitem = new ScheduleItem({
-      //     ItemId: ItemId,
-      //     ItemName: ItemName,
-      //     Quantity: Quantity,
-      //   });
-
-      //   savedItem = await scheduleitem.save();
-
-      //   const schedule = await ScheduleMenu.findOneAndUpdate(
-      //     {
-      //       $and: [{ user: req.user.id }, { Date: `${Date}` }],
-      //     },
-      //     {
-      //       $addToSet: {
-      //         ScheduleItems: [savedItem],
-      //       },
-      //     }
-      //   );
-
-      //   // res.json(schedule);
-      // } else {
-      //   // scheduleitems = { Date };
-      //   // scheduleitems.user = req.user.id;
-
-      //   // items = new ScheduleMenu(scheduleitems);
-      //   // await items.save();
-
-      //   const scheduleitem = new ScheduleItem({
-      //     ItemId: ItemId,
-      //     ItemName: ItemName,
-      //     Quantity: Quantity,
-      //   });
-
-      //   savedItem = await scheduleitem.save();
-
-      //   const schedule = await ScheduleMenu.findOneAndUpdate(
-      //     {
-      //       $and: [{ user: req.user.id }, { Date: `${Date}` }],
-      //     },
-      //     {
-      //       $addToSet: {
-      //         ScheduleItems: [savedItem],
-      //       },
-      //     }
-      //   );
-
-      //   // res.json(schedule);
-
-      //   // res.json("Created Successfully");
-      // }
     }
   }
 );
